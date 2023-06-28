@@ -1,9 +1,11 @@
 local RunService = game:GetService("RunService")
-local Util = require(script.Shared:WaitForChild("Util"))
 
 if RunService:IsServer() == false then
-	error("Cmdr server module is somehow running on a client!")
+	--error("Cmdr server module is somehow running on a client!")
+	return nil
 end
+
+local Util = require(script.Shared:WaitForChild("Util"))
 
 local Cmdr do
 	Cmdr = setmetatable({
