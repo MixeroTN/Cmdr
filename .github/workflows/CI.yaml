@@ -26,10 +26,10 @@ jobs:
         run: mkdir -p Packages
 
       - name: Run Stylua
-        run: stylua lib --check
+        run: stylua Cmdr --check
 
       - name: Run Selene
-        run : selene lib
+        run : selene Cmdr
 
       - name: Build pack.rbxm
         run: rojo build -o pack.rbxm pack.project.json
@@ -73,19 +73,17 @@ jobs:
       - name: Checkout development
         uses: actions/checkout@v3
 
-      - name: Setup Foreman
-        uses: Roblox/setup-foreman@v1
-        with: 
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Setup Aftman
+        uses: ok-nick/setup-aftman@v0.3.0
 
-      - name: Install Foreman Toolchains
-        run: foreman install
+      - name: Install Aftman Toolchains
+        run: aftman install
 
       - name: Run Stylua
-        run: stylua lib --check
+        run: stylua Cmdr --check
 
       - name: Run Selene
-        run : selene lib
+        run : selene Cmdr
 
       - name: Install Dependencies
         run: wally install
