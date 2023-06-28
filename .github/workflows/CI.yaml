@@ -25,15 +25,6 @@ jobs:
       - name: Create Packages Directory
         run: mkdir -p Packages
 
-      - name: Build pack.rbxm
-        run: rojo build -o pack.rbxm pack.project.json
-
-      - name: Upload pack.rbxm as build artifact
-        uses: actions/upload-artifact@v3
-        with: 
-          name: hello_world
-          path: pack.rbxm
-
       - name: Get Release from wally.toml
         uses: SebRollen/toml-action@v1.0.0
         id: read_toml
@@ -78,21 +69,3 @@ jobs:
 
       - name: Create Packages Directory
         run: mkdir -p Packages
-
-      - name: Build test-pack.rbxm
-        run: rojo build -o test-pack.rbxm pack.project.json
-
-      - name: Build testing place
-        run: rojo build -o testing.rbxl testing.project.json
-
-      - name: Upload test-pack.rbxm as build artifact
-        uses: actions/upload-artifact@v3
-        with: 
-          name: hello_world
-          path: test-pack.rbxm
-
-      - name: Upload testing.rbxl as build artifact
-        uses: actions/upload-artifact@v3
-        with: 
-          name: hello_world
-          path: testing.rbxl
