@@ -25,9 +25,6 @@ jobs:
       - name: Create Packages Directory
         run: mkdir -p Packages
 
-      - name: Run Selene
-        run : selene Cmdr
-
       - name: Build pack.rbxm
         run: rojo build -o pack.rbxm pack.project.json
 
@@ -75,9 +72,6 @@ jobs:
 
       - name: Install Aftman Toolchains
         run: aftman install
-
-      - name: Run Selene
-        run : selene Cmdr
 
       - name: Install Dependencies
         run: wally install
