@@ -18,6 +18,8 @@ return function(Cmdr)
 	local Entry = Gui.Parent:WaitForChild("Frame"):WaitForChild("Entry")
 	AutoItem.Parent = nil
 
+	local defaultBarThickness = Gui.ScrollBarThickness
+
 	-- Helper function that sets text and resizes labels
 	local function SetText(obj, textObj, text, sizeFromContents)
 		obj.Visible = text ~= nil
@@ -33,6 +35,15 @@ return function(Cmdr)
 		end
 	end
 
+	local function UpdateContainerSize()
+		Gui.Size = UDim2.new(
+			0,
+			math.max(Title.Field.TextBounds.X + Title.Field.Type.TextBounds.X, Gui.Size.X.Offset),
+			0,
+			math.min(Gui.UIListLayout.AbsoluteContentSize.Y, Gui.Parent.AbsoluteSize.Y - Gui.AbsolutePosition.Y - 10)
+		)
+	end
+
 	-- Update the info display (Name, type, and description) based on given options.
 	local function UpdateInfoDisplay(options)
 		-- Update the objects' text and sizes
@@ -45,11 +56,6 @@ return function(Cmdr)
 		SetText(Description, Description.Label, options.description)
 
 		Description.Label.TextColor3 = options.invalid and Color3.fromRGB(255, 73, 73) or Color3.fromRGB(255, 255, 255)
-
-		-- Calculate needed width and height
-		local infoWidth = Title.Field.TextBounds.X + Title.Field.Type.TextBounds.X
-
-		local guiWidth = math.max(infoWidth, Gui.Size.X.Offset)
 		Description.Size = UDim2.new(1, 0, 0, 40)
 
 		-- Flow description text
@@ -62,9 +68,10 @@ return function(Cmdr)
 		end
 
 		-- Update container
-		wait()
+		task.wait()
 		Gui.UIListLayout:ApplyLayout()
-		Gui.Size = UDim2.new(0, guiWidth, 0, Gui.UIListLayout.AbsoluteContentSize.Y)
+		UpdateContainerSize()
+		Gui.ScrollBarThickness = defaultBarThickness
 	end
 
 	--- Shows the auto complete menu with the given list and possible options
@@ -101,6 +108,8 @@ return function(Cmdr)
 		-- Generate the new option labels
 		local autocompleteWidth = 200
 
+		Gui.ScrollBarThickness = 0
+
 		for i, item in pairs(self.Items) do
 			local leftText = item[1]
 			local rightText = item[2]
@@ -108,8 +117,14 @@ return function(Cmdr)
 			local btn = AutoItem:Clone()
 			btn.Name = leftText .. rightText
 			btn.BackgroundTransparency = i == self.SelectedItem and 0.5 or 1
-			btn.Typed.Text = leftText
-			btn.Suggest.Text = string.rep(" ", #leftText) .. rightText:sub(#leftText + 1)
+
+			local start, stop = string.find(rightText:lower(), leftText:lower(), 1, true)
+			btn.Typed.Text = string.rep(" ", start - 1) .. leftText
+			btn.Suggest.Text = string.sub(rightText, 0, start - 1)
+				.. string.rep(" ", #leftText)
+				.. string.sub(rightText, stop + 1)
+
+
 			btn.Parent = Gui
 			btn.LayoutOrder = i
 
@@ -179,10 +194,23 @@ return function(Cmdr)
 			item.gui.BackgroundTransparency = i == self.SelectedItem and 0.5 or 1
 		end
 
+		Gui.CanvasPosition = Vector2.new(
+			0,
+			math.max(
+				0,
+				Title.Size.Y.Offset
+					+ Description.Size.Y.Offset
+					+ self.SelectedItem * AutoItem.Size.Y.Offset
+					- Gui.Size.Y.Offset
+			)
+		)
+
 		if self.Items[self.SelectedItem] and self.Items[self.SelectedItem].options then
 			UpdateInfoDisplay(self.Items[self.SelectedItem].options or {})
 		end
 	end
+
+	Gui.Parent:GetPropertyChangedSignal("AbsoluteSize"):Connect(UpdateContainerSize)
 
 	return AutoComplete
 end
