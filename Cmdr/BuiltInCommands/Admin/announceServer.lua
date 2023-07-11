@@ -1,3 +1,5 @@
+-- // This is only for PCS
+
 local TextService = game:GetService("TextService")
 local ServerScriptService = game:GetService("ServerScriptService")
 
