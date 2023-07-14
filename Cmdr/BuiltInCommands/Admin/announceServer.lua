@@ -18,7 +18,7 @@ return function (context, text)
 	preparationQueue:Await()
 
 	-- // Indicates the Popup, image id 0 will show no image
-	indicators:IndicatePopup("announcement", "rbxassetid://0", "[ANNOUNCEMENT] " .. resultForBroadcast, Color3.fromRGB(255, 238, 0), 5 + (#resultForBroadcast / 20))
+	indicators:IndicatePopupFromTemplate("announcement", resultForBroadcast)
 
 	return "Created announcement."
 end
