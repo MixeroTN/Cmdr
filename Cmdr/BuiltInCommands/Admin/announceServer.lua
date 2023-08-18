@@ -22,3 +22,4 @@ return function (context, text)
 
 	return "Created announcement."
 end
+
