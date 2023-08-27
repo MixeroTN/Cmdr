@@ -5,6 +5,62 @@ if RunService:IsServer() == false then
 	return nil
 end
 
+--[=[
+	@class Cmdr
+	@server
+
+	The Cmdr server singleton.
+]=]
+
+--[=[
+	@within Cmdr
+	@prop Registry Registry
+	@readonly
+	Refers to the current command Registry.
+]=]
+
+--[=[
+	@within Cmdr
+	@prop Dispatcher Dispatcher
+	@readonly
+	Refers to the current command Dispatcher.
+]=]
+
+--[=[
+	@within Cmdr
+	@prop Util Util
+	@readonly
+	Refers to a table containing many useful utility functions.
+]=]
+
+--[=[
+	@class Cmdr
+	@server
+
+	The Cmdr server singleton.
+]=]
+
+--[=[
+	@within Cmdr
+	@prop Registry Registry
+	@readonly
+	Refers to the current command Registry.
+]=]
+
+--[=[
+	@within Cmdr
+	@prop Dispatcher Dispatcher
+	@readonly
+	Refers to the current command Dispatcher.
+]=]
+
+--[=[
+	@within Cmdr
+	@prop Util Util
+	@readonly
+	Refers to a table containing many useful utility functions.
+]=]
+
 local Util = require(script.Shared:WaitForChild("Util"))
 
 local Cmdr do
@@ -33,7 +89,7 @@ end
 
 -- Handle command invocations from the clients.
 Cmdr.RemoteFunction.OnServerInvoke = function(player, text, options)
-	if #text > 100_000 then
+	if #text > 10000 then
 		return "Input too long"
 	end
 
