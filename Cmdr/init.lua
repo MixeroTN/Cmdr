@@ -9,6 +9,34 @@ end
 	@class Cmdr
 	@server
 
+	The Cmdr server singleton and entry point.
+]=]
+
+--[=[
+	@within Cmdr
+	@prop Registry Registry
+	@readonly
+	Refers to the current command Registry.
+]=]
+
+--[=[
+	@within Cmdr
+	@prop Dispatcher Dispatcher
+	@readonly
+	Refers to the current command Dispatcher.
+]=]
+
+--[=[
+	@within Cmdr
+	@prop Util Util
+	@readonly
+	Refers to a table containing many useful utility functions.
+]=]
+
+--[=[
+	@class Cmdr
+	@server
+
 	The Cmdr server singleton.
 ]=]
 
